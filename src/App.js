@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffec, useEffect} from "react";
 
 import {
   SafeAreaView,
@@ -10,7 +10,19 @@ import {
   TouchableOpacity,
 } from "react-native";
 
+import api from './services/api'
+
 export default function App() {
+  const [repositories, setRepositories ] = useState([])
+
+  useEffect(() => {
+    api.get('repositories')
+      .then(response => {
+        const data =  response.data
+        
+        setRepositories(data)
+      })
+  }, [])
   async function handleLikeRepository(id) {
     // Implement "Like Repository" functionality
   }
@@ -65,6 +77,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 15,
     backgroundColor: "#fff",
     padding: 20,
+    borderRadius: 8,
   },
   repository: {
     fontSize: 32,
@@ -95,6 +108,7 @@ const styles = StyleSheet.create({
   },
   button: {
     marginTop: 10,
+    borderRadius: 5,
   },
   buttonText: {
     fontSize: 14,
